@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>E-Bike Explorer</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f7f7f7;
+      color: #333;
+    }
+    header {
+      background-color: #1a1a1a;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      background-color: #333;
+      margin: 0;
+    }
+    nav li {
+      margin: 0 15px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 15px;
+      display: block;
+    }
+    nav a:hover {
+      background-color: #555;
+    }
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: #e3e3e3;
+    }
+    .hero h1 {
+      margin-bottom: 10px;
+    }
+    .button {
+      display: inline-block;
+      padding: 12px 25px;
+      margin-top: 15px;
+      background-color: #007BFF;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    section {
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .brand-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .brand-card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .brand-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+    .news {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .news h3 {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>E-Bike Explorer</h1>
+  <p>Explore the best e-bikes and accessories across top brands.</p>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="ebikes.html">E-Bikes</a></li>
+    <li><a href="accessories.html">Accessories</a></li>
+    <li><a href="brands.html">Brands</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="3d.html">3D Viewer</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <h1>Find Your Ride</h1>
+  <p>Discover the perfect electric bike and gear for your adventures.</p>
+  <a href="ebikes.html" class="button">Shop Now</a>
+</div>
+
+<section id="top-brands">
+  <h2>Top Brands</h2>
+  <div class="brand-grid">
+    <div class="brand-card">
+      <img src="macfox.jpg" alt="Macfox">
+      <p>Macfox</p>
+    </div>
+    <div class="brand-card">
+      <img src="super73.jpg" alt="Super73">
+      <p>Super73</p>
+    </div>
+    <div class="brand-card">
+      <img src="surron.jpg" alt="Surron">
+      <p>Surron</p>
+    </div>
+    <div class="brand-card">
+      <img src="talaria.jpg" alt="Talaria">
+      <p>Talaria</p>
+    </div>
+  </div>
+</section>
+
+<section class="news">
+  <h2>Latest News</h2>
+  <h3>Top 5 Must-Have E-Bike Accessories</h3>
+  <p>Discover which add-ons improve comfort and performance.</p>
+
+  <h3>How to Customize Your Macfox X1</h3>
+  <p>From pegs to racks — here's how to mod it right.</p>
+</section>
+
+<footer>
+  <p>© 2025 E-Bike Explorer. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
