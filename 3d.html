@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>3D Bike Viewer</title>
+  <title>3D Bike Builder</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -15,9 +15,8 @@
     h1 {
       margin-bottom: 10px;
     }
-    select {
+    select, label {
       margin: 10px;
-      padding: 10px;
       font-size: 1rem;
     }
     iframe {
@@ -29,70 +28,93 @@
       margin-top: 20px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
+    .accessories {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .accessories label {
+      background: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
   </style>
 </head>
 <body>
-  <h1>3D Bike Mod Viewer</h1>
-  <p>Select a bike and modification to view it in 3D.</p>
+  <h1>Build Your Bike</h1>
+  <p>Select a brand, model, and accessories to view the custom 3D version.</p>
 
   <div>
-    <select id="bikeSelect">
+    <select id="brandSelect">
       <option value="macfox">Macfox</option>
       <option value="super73">Super73</option>
       <option value="surron">Surron</option>
       <option value="talaria">Talaria</option>
     </select>
 
-    <select id="modSelect">
-      <option value="base">Base Model</option>
-      <option value="seat">Seat Upgrade</option>
-      <option value="odi">ODI Plate</option>
-      <option value="rack">Rear Rack</option>
+    <select id="modelSelect">
+      <option value="x1">X1</option>
     </select>
   </div>
 
-  <iframe id="modelViewer" allowfullscreen></iframe>
+  <div class="accessories">
+    <label><input type="checkbox" value="seat"> Upgraded Seat</label>
+    <label><input type="checkbox" value="odi"> ODI Plate</label>
+    <label><input type="checkbox" value="rack"> Rear Rack</label>
+    <label><input type="checkbox" value="headlight"> Headlight</label>
+  </div>
+
+  <iframe id="bikeViewer" allowfullscreen></iframe>
 
   <script>
-    const viewer = document.getElementById("modelViewer");
+    const viewer = document.getElementById("bikeViewer");
+    const brandSelect = document.getElementById("brandSelect");
+    const modelSelect = document.getElementById("modelSelect");
+    const accessoryInputs = document.querySelectorAll(".accessories input");
 
-    const models = {
+    const modelURLs = {
       macfox: {
-        base: "https://sketchfab.com/models/5b91bdfd8f8445fa9266556950bd20c4/embed",
-        seat: "https://sketchfab.com/models/06f5bc6b775543bd81c4dd6a3c38a1f3/embed",
-        odi: "https://sketchfab.com/models/1fa927d5f11142b9a8edfe1e25e99bcb/embed",
-        rack: "https://sketchfab.com/models/6346b34a317043b3b093ad5de84421bc/embed"
-      },
-      super73: {
-        base: "https://sketchfab.com/models/3cf7e0c1fdea4f0fb3db83392d0546d2/embed",
-        seat: "https://sketchfab.com/models/14f870206f2b4b37b1c9c2b6f217eec7/embed",
-        odi: "https://sketchfab.com/models/62b9a9fd22ce4cfcb70cfda209f24831/embed",
-        rack: "https://sketchfab.com/models/b1897f45b6d1440f9b3b254dd3b68dbb/embed"
-      },
-      surron: {
-        base: "https://sketchfab.com/models/f03f197c024747b0aaaf34337779d659/embed",
-        seat: "https://sketchfab.com/models/1e88561c73a84db99a171be9db29c9a9/embed",
-        odi: "https://sketchfab.com/models/c87279947cd748b89ff2a77c1c8df4e4/embed",
-        rack: "https://sketchfab.com/models/e46a6edb0e074134bdd3073f10c4b4be/embed"
-      },
-      talaria: {
-        base: "https://sketchfab.com/models/e088263126a14fc7bb16f4704e25b5a5/embed",
-        seat: "https://sketchfab.com/models/7c7357c09ee04fc4abfa6cd763bd9e88/embed",
-        odi: "https://sketchfab.com/models/fd0e2a47059c4df585650cb2744b2f3d/embed",
-        rack: "https://sketchfab.com/models/0be9fcf306d147e68892c22825c40465/embed"
+        x1: {
+          base: "https://sketchfab.com/models/5b91bdfd8f8445fa9266556950bd20c4/embed",
+          seat: "https://sketchfab.com/models/06f5bc6b775543bd81c4dd6a3c38a1f3/embed",
+          odi: "https://sketchfab.com/models/1fa927d5f11142b9a8edfe1e25e99bcb/embed",
+          rack: "https://sketchfab.com/models/6346b34a317043b3b093ad5de84421bc/embed",
+          headlight: "https://sketchfab.com/models/b1897f45b6d1440f9b3b254dd3b68dbb/embed"
+        }
       }
+      // Add other brands/models here when ready
     };
 
-    function updateModel() {
-      const bike = document.getElementById("bikeSelect").value;
-      const mod = document.getElementById("modSelect").value;
-      viewer.src = models[bike][mod];
+    function getSelectedModKey() {
+      const mods = Array.from(accessoryInputs)
+        .filter(input => input.checked)
+        .map(input => input.value);
+
+      return mods.length === 0 ? "base" : mods[0]; // For now: show only first selected mod
     }
 
-    document.getElementById("bikeSelect").onchange = updateModel;
-    document.getElementById("modSelect").onchange = updateModel;
+    function updateModel() {
+      const brand = brandSelect.value;
+      const model = modelSelect.value;
+      const modKey = getSelectedModKey();
 
-    updateModel(); // Initialize viewer on load
+      const url = modelURLs[brand]?.[model]?.[modKey];
+
+      if (url) {
+        viewer.src = url;
+      } else {
+        viewer.src = "";
+      }
+    }
+
+    brandSelect.onchange = updateModel;
+    modelSelect.onchange = updateModel;
+    accessoryInputs.forEach(input => input.onchange = updateModel);
+
+    updateModel(); // Initialize on load
   </script>
 </body>
 </html>
