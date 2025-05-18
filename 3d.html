@@ -28,14 +28,14 @@
       margin-top: 20px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    .accessories, .seat-style {
+    .row {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
       gap: 10px;
       margin-top: 10px;
     }
-    .accessories label, .seat-style label {
+    .row label {
       background: white;
       padding: 8px 12px;
       border-radius: 6px;
@@ -44,8 +44,8 @@
   </style>
 </head>
 <body>
-  <h1>Build Your Bike</h1>
-  <p>Select a brand, model, seat style, and accessories to preview your custom e-bike.</p>
+  <h1>Customize Your Bike</h1>
+  <p>Choose your brand, model, accessories, and fully customize your seat.</p>
 
   <div>
     <select id="brandSelect">
@@ -58,20 +58,37 @@
     <select id="modelSelect"></select>
   </div>
 
-  <div class="seat-style">
-    <label>
-      Seat Cover Style:
-      <select id="seatStyle">
-        <option value="base">Stock Seat</option>
-        <option value="guts_red">Guts Red Gripper</option>
-        <option value="guts_black">Guts Black Ribbed</option>
-        <option value="thrill_camo">Thrill Seekers Camo</option>
-        <option value="thrill_stripe">Thrill Seekers Stripe</option>
+  <div class="row">
+    <label>Material:
+      <select id="seatMaterial">
+        <option value="stock">Stock</option>
+        <option value="gripper">Gripper</option>
+        <option value="ribbed">Ribbed</option>
+        <option value="smooth">Smooth</option>
+        <option value="diamond">Diamond</option>
+      </select>
+    </label>
+
+    <label>Color:
+      <select id="seatColor">
+        <option value="black">Black</option>
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="camo">Camo</option>
+        <option value="gray">Gray</option>
+      </select>
+    </label>
+
+    <label>Brand Style:
+      <select id="seatBrand">
+        <option value="none">None</option>
+        <option value="guts">Guts Racing</option>
+        <option value="thrill">Thrill Seekers</option>
       </select>
     </label>
   </div>
 
-  <div class="accessories">
+  <div class="row accessories">
     <label><input type="checkbox" value="odi"> ODI Plate</label>
     <label><input type="checkbox" value="rack"> Rear Rack</label>
     <label><input type="checkbox" value="headlight"> Headlight</label>
@@ -83,7 +100,9 @@
     const viewer = document.getElementById("bikeViewer");
     const brandSelect = document.getElementById("brandSelect");
     const modelSelect = document.getElementById("modelSelect");
-    const seatSelect = document.getElementById("seatStyle");
+    const seatMaterial = document.getElementById("seatMaterial");
+    const seatColor = document.getElementById("seatColor");
+    const seatBrand = document.getElementById("seatBrand");
     const accessoryInputs = document.querySelectorAll(".accessories input");
 
     const brandModels = {
@@ -96,14 +115,13 @@
     const modelURLs = {
       macfox: {
         X1: {
-          base: "https://sketchfab.com/models/5b91bdfd8f8445fa9266556950bd20c4/embed",
-          guts_red: "https://sketchfab.com/models/abc123/embed",
-          guts_black: "https://sketchfab.com/models/def456/embed",
-          thrill_camo: "https://sketchfab.com/models/ghi789/embed",
-          thrill_stripe: "https://sketchfab.com/models/jkl012/embed"
+          "stock": "https://sketchfab.com/models/5b91bdfd8f8445fa9266556950bd20c4/embed",
+          "gripper_red_guts": "https://sketchfab.com/models/abc123/embed",
+          "ribbed_black_guts": "https://sketchfab.com/models/def456/embed",
+          "smooth_blue_thrill": "https://sketchfab.com/models/ghi789/embed",
+          "diamond_camo_thrill": "https://sketchfab.com/models/jkl012/embed"
         }
       }
-      // Additional brands + models coming next
     };
 
     function populateModels(brand) {
@@ -117,38 +135,33 @@
       });
     }
 
-    function getViewerURL() {
-      const brand = brandSelect.value;
-      const model = modelSelect.value;
-      const seat = seatSelect.value;
-      const accessories = Array.from(accessoryInputs)
-        .filter(input => input.checked)
-        .map(input => input.value);
+    function getModelKey() {
+      const material = seatMaterial.value;
+      const color = seatColor.value;
+      const brand = seatBrand.value;
 
-      const seatKey = seat !== "base" ? seat : "base";
-
-      const modelSet = modelURLs[brand]?.[model];
-
-      if (modelSet && modelSet[seatKey]) {
-        return modelSet[seatKey];
-      }
-
-      return "";
+      if (material === "stock") return "stock";
+      return `${material}_${color}_${brand}`;
     }
 
     function updateViewer() {
-      const url = getViewerURL();
+      const brand = brandSelect.value;
+      const model = modelSelect.value;
+      const modelKey = getModelKey();
+      const url = modelURLs[brand]?.[model]?.[modelKey] || modelURLs[brand]?.[model]?.["stock"] || "";
+
       viewer.src = url;
     }
 
-    // Listeners
+    // Event listeners
     brandSelect.addEventListener("change", () => {
       populateModels(brandSelect.value);
       updateViewer();
     });
-
     modelSelect.addEventListener("change", updateViewer);
-    seatSelect.addEventListener("change", updateViewer);
+    seatMaterial.addEventListener("change", updateViewer);
+    seatColor.addEventListener("change", updateViewer);
+    seatBrand.addEventListener("change", updateViewer);
     accessoryInputs.forEach(input => input.addEventListener("change", updateViewer));
 
     // Init
