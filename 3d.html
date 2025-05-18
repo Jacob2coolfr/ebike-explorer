@@ -55,9 +55,7 @@
       <option value="talaria">Talaria</option>
     </select>
 
-    <select id="modelSelect">
-      <!-- Models will update based on brand -->
-    </select>
+    <select id="modelSelect"></select>
   </div>
 
   <div class="accessories">
@@ -76,48 +74,16 @@
     const accessoryInputs = document.querySelectorAll(".accessories input");
 
     const brandModels = {
-      macfox: ["X1", "X1S"],
-      super73: ["RX", "S2"],
-      surron: ["Light Bee", "Ultra Bee"],
-      talaria: ["Sting", "Sting R"]
+      macfox: ["X1", "X1S", "X1S x Bs.zay", "X2", "M19", "M20X", "C100"],
+      super73: ["Z1", "Z Miami Core", "Z Miami SE", "ZX Core", "ZX SE", "Z Adventure Core", "Z Adventure SE", "S1", "S2", "S2 x Indian", "S Adventure", "S Blackout SE", "R", "RX", "R Brooklyn", "R Adventure", "R Blackout SE", "K1D", "OG1", "OG2", "SG1"],
+      surron: ["Light Bee X", "Light Bee S", "Light Bee L1E", "Ultra Bee", "Storm Bee", "Hyper Bee"],
+      talaria: ["Sting MX3", "Sting R MX4", "Sting R MX4 Expert", "Sting MX5 Pro", "Sting Pro", "Sting R L1E Road Legal", "Sting R L3E Road Legal", "X3 MX", "X3 Road Legal", "Dragon", "Komodo"]
     };
 
     const modelURLs = {
       macfox: {
-        X1: {
-          base: "https://sketchfab.com/models/5b91bdfd8f8445fa9266556950bd20c4/embed",
-          seat: "https://sketchfab.com/models/06f5bc6b775543bd81c4dd6a3c38a1f3/embed",
-          odi: "https://sketchfab.com/models/1fa927d5f11142b9a8edfe1e25e99bcb/embed",
-          rack: "https://sketchfab.com/models/6346b34a317043b3b093ad5de84421bc/embed",
-          headlight: "https://sketchfab.com/models/b1897f45b6d1440f9b3b254dd3b68dbb/embed"
-        },
-        X1S: {
-          base: "https://sketchfab.com/models/3cf7e0c1fdea4f0fb3db83392d0546d2/embed"
-        }
-      },
-      super73: {
-        RX: {
-          base: "https://sketchfab.com/models/f03f197c024747b0aaaf34337779d659/embed"
-        },
-        S2: {
-          base: "https://sketchfab.com/models/7c7357c09ee04fc4abfa6cd763bd9e88/embed"
-        }
-      },
-      surron: {
-        "Light Bee": {
-          base: "https://sketchfab.com/models/1e88561c73a84db99a171be9db29c9a9/embed"
-        },
-        "Ultra Bee": {
-          base: "https://sketchfab.com/models/fd0e2a47059c4df585650cb2744b2f3d/embed"
-        }
-      },
-      talaria: {
-        Sting: {
-          base: "https://sketchfab.com/models/e088263126a14fc7bb16f4704e25b5a5/embed"
-        },
-        "Sting R": {
-          base: "https://sketchfab.com/models/0be9fcf306d147e68892c22825c40465/embed"
-        }
+        X1: { base: "https://sketchfab.com/models/5b91bdfd8f8445fa9266556950bd20c4/embed" }
+        // Add more as they're created
       }
     };
 
@@ -136,19 +102,17 @@
       const mods = Array.from(accessoryInputs)
         .filter(input => input.checked)
         .map(input => input.value);
-      return mods.length === 0 ? "base" : mods[0]; // For now, only use first selected mod
+      return mods.length === 0 ? "base" : mods[0]; // For now, use first mod
     }
 
     function updateViewer() {
       const brand = brandSelect.value;
       const model = modelSelect.value;
       const modKey = getSelectedModKey();
-      const modelEmbed = modelURLs[brand]?.[model]?.[modKey] || "";
-
-      viewer.src = modelEmbed;
+      const url = modelURLs[brand]?.[model]?.[modKey] || "";
+      viewer.src = url;
     }
 
-    // Listeners
     brandSelect.addEventListener("change", () => {
       populateModels(brandSelect.value);
       updateViewer();
@@ -157,7 +121,7 @@
     modelSelect.addEventListener("change", updateViewer);
     accessoryInputs.forEach(input => input.addEventListener("change", updateViewer));
 
-    // Init on page load
+    // Initialize
     populateModels(brandSelect.value);
     updateViewer();
   </script>
