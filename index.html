@@ -2,31 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>E-Bike Explorer</title>
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: #f7f7f7;
+      background: #f4f4f4;
       color: #333;
     }
 
     header {
-      background-color: #1a1a1a;
+      background: #1a1a1a;
       color: white;
       padding: 20px;
       text-align: center;
     }
 
     nav ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      background-color: #333;
+      padding: 0;
+      margin: 0;
+      background: #333;
+      list-style: none;
     }
 
     nav li {
@@ -34,40 +34,40 @@
     }
 
     nav a {
+      display: block;
+      padding: 15px 20px;
       color: white;
       text-decoration: none;
-      padding: 15px 20px;
-      display: block;
     }
 
     nav a:hover {
-      background-color: #555;
+      background: #555;
     }
 
     .hero {
+      padding: 50px 20px;
       text-align: center;
-      padding: 40px 20px;
-      background: #e3e3e3;
+      background: #e2e2e2;
     }
 
     .hero h1 {
-      margin-bottom: 10px;
-      font-size: 2em;
+      margin: 0 0 10px;
+      font-size: 2rem;
     }
 
     .button {
-      display: inline-block;
-      padding: 12px 25px;
-      margin-top: 15px;
-      background-color: #007BFF;
+      background: #007BFF;
       color: white;
-      text-decoration: none;
+      padding: 12px 20px;
       border-radius: 5px;
+      text-decoration: none;
       font-size: 1rem;
+      display: inline-block;
+      margin-top: 10px;
     }
 
     section {
-      padding: 30px 20px;
+      padding: 40px 20px;
       text-align: center;
     }
 
@@ -82,44 +82,40 @@
       background: white;
       padding: 10px;
       border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
     .brand-card img {
       width: 100%;
-      height: 120px;
+      height: 140px;
       object-fit: cover;
       border-radius: 8px;
     }
 
+    .news {
+      max-width: 800px;
+      margin: auto;
+      text-align: left;
+    }
+
+    .news h3 {
+      margin-bottom: 5px;
+    }
+
     footer {
-      background: #222;
+      background: #1a1a1a;
       color: white;
       text-align: center;
       padding: 20px;
       font-size: 0.9rem;
     }
 
-    .news {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: left;
-    }
-
-    .news h3 {
-      margin-top: 20px;
-      margin-bottom: 5px;
-    }
-
     @media (max-width: 600px) {
       nav {
         flex-direction: column;
       }
-
       nav a {
         text-align: center;
-        padding: 12px;
-        font-size: 1rem;
       }
     }
   </style>
@@ -144,27 +140,27 @@
 
 <div class="hero">
   <h1>Find Your Ride</h1>
-  <p>Discover the perfect e-bike and gear for your adventures.</p>
-  <a href="ebikes.html" class="button">Shop Now</a>
+  <p>Choose from top electric bikes and customize them with accessories.</p>
+  <a href="ebikes.html" class="button">Browse Bikes</a>
 </div>
 
 <section id="top-brands">
   <h2>Top Brands</h2>
   <div class="brand-grid">
     <div class="brand-card">
-      <img src="macfox.jpg" alt="Macfox" />
+      <img src="macfox.jpg" alt="Macfox">
       <p>Macfox</p>
     </div>
     <div class="brand-card">
-      <img src="super73.jpg" alt="Super73" />
+      <img src="super73.jpg" alt="Super73">
       <p>Super73</p>
     </div>
     <div class="brand-card">
-      <img src="surron.jpg" alt="Surron" />
+      <img src="surron.jpg" alt="Surron">
       <p>Surron</p>
     </div>
     <div class="brand-card">
-      <img src="talaria.jpg" alt="Talaria" />
+      <img src="talaria.jpg" alt="Talaria">
       <p>Talaria</p>
     </div>
   </div>
@@ -172,11 +168,14 @@
 
 <section class="news">
   <h2>Latest News</h2>
-  <h3>Top 5 Must-Have E-Bike Accessories</h3>
-  <p>Discover which add-ons improve comfort and performance.</p>
-
-  <h3>How to Customize Your Macfox X1</h3>
-  <p>From pegs to racks — here's how to mod it right.</p>
+  <div class="news-item">
+    <h3>Top 5 Must-Have E-Bike Accessories</h3>
+    <p>Discover the top add-ons to upgrade your e-bike's performance and style.</p>
+  </div>
+  <div class="news-item">
+    <h3>How to Customize Your Macfox X1</h3>
+    <p>A guide to pegs, racks, lights, and other must-have upgrades.</p>
+  </div>
 </section>
 
 <footer>
