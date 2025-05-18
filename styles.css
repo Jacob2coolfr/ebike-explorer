@@ -1,37 +1,59 @@
+
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
-  background: #f5f5f5;
+  font-family: Arial, sans-serif;
+  background: #f8f9fa;
 }
 
 header {
-  background: #111;
-  color: white;
-  padding: 1em;
+  background: #222;
+  color: #fff;
+  padding: 20px;
   text-align: center;
 }
 
 nav ul {
   list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   justify-content: center;
-  gap: 2em;
+  gap: 15px;
+  padding: 0;
 }
 
-nav ul li a {
-  color: white;
+nav a {
+  color: #fff;
   text-decoration: none;
 }
 
-section {
-  padding: 2em;
+.hero {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.top-brands {
+  padding: 20px;
   text-align: center;
 }
 
-img {
-  max-width: 100%;
+.brand-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+.brand-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 200px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.brand-card img {
+  width: 100%;
   height: auto;
+  display: block;
+  border-bottom: 1px solid #ddd;
 }
