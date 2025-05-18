@@ -14,6 +14,18 @@
     h1 {
       text-align: center;
     }
+    .back-button {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .back-button a {
+      padding: 10px 20px;
+      background: #007BFF;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
     .controls {
       display: flex;
       flex-wrap: wrap;
@@ -59,32 +71,208 @@
     .compat-item span {
       margin-left: 5px;
     }
-    .back-button {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .back-button a {
-      padding: 10px 20px;
-      background: #007BFF;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      font-size: 1rem;
-    }
   </style>
 </head>
 <body>
 
   <h1>3D E-Bike Customizer</h1>
-
   <div class="back-button">
     <a href="index.html">← Back to Home</a>
   </div>
 
-  <!-- All other content below remains unchanged (customization UI, iframe, etc.) -->
+  <div class="controls">
+    <div>
+      <label>Brand:</label>
+      <select id="brandSelect">
+        <option value="macfox">Macfox</option>
+        <option value="super73">Super73</option>
+        <option value="surron">Surron</option>
+        <option value="talaria">Talaria</option>
+      </select>
+    </div>
+    <div>
+      <label>Model:</label>
+      <select id="modelSelect"></select>
+    </div>
+    <div>
+      <label>Seat Material:</label>
+      <select id="seatMaterial">
+        <option value="stock">Stock</option>
+        <option value="gripper">Gripper</option>
+        <option value="ribbed">Ribbed</option>
+        <option value="smooth">Smooth</option>
+        <option value="diamond">Diamond</option>
+      </select>
+    </div>
+    <div>
+      <label>Seat Color:</label>
+      <select id="seatColor">
+        <option value="black">Black</option>
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="camo">Camo</option>
+        <option value="gray">Gray</option>
+      </select>
+    </div>
+    <div>
+      <label>Seat Brand:</label>
+      <select id="seatBrand">
+        <option value="none">None</option>
+        <option value="guts">Guts Racing</option>
+        <option value="thrill">Thrill Seekers</option>
+      </select>
+    </div>
+    <div>
+      <label>Grip Type:</label>
+      <select id="gripType">
+        <option value="odi">ODI Lock-On</option>
+        <option value="proTaper">ProTaper Pillow</option>
+        <option value="halfWaffle">Half Waffle</option>
+      </select>
+    </div>
+    <div>
+      <label>Grip Color:</label>
+      <select id="gripColor">
+        <option value="black">Black</option>
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="green">Neon Green</option>
+        <option value="camo">Camo</option>
+      </select>
+    </div>
+    <div>
+      <label>Peg Color:</label>
+      <select id="pegColor">
+        <option value="none">None</option>
+        <option value="black">Black</option>
+        <option value="silver">Silver</option>
+        <option value="gold">Gold</option>
+      </select>
+    </div>
+    <div>
+      <label>Pedal Color:</label>
+      <select id="pedalColor">
+        <option value="none">None</option>
+        <option value="black">Black</option>
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+      </select>
+    </div>
+    <div>
+      <label>Kickstand:</label>
+      <select id="kickstandModel">
+        <option value="none">None</option>
+        <option value="evmod">EVMod Kickstand</option>
+        <option value="universal">Universal Mid-Mount</option>
+        <option value="prolift">Pro-Lift Side Stand</option>
+      </select>
+    </div>
+    <div>
+      <label><input type="checkbox" id="odi"> ODI Plate</label><br/>
+      <label><input type="checkbox" id="rack"> Rear Rack</label><br/>
+      <label><input type="checkbox" id="headlight"> Headlight</label>
+    </div>
+  </div>
 
-  <!-- Your existing JS logic, controls, viewer, compatibility box, etc. should follow -->
-  <!-- If you want me to include the full version again with all accessories and logic, just say so! -->
+  <div class="viewer">
+    <iframe id="bikeViewer" allowfullscreen></iframe>
+  </div>
 
+  <div class="compatibility-box" id="compatBox">
+    <h3>Compatibility</h3>
+    <div class="compat-item">Kickstand: <span id="kickstandCheck">❓</span></div>
+  </div>
+
+  <script>
+    const brandModels = {
+      macfox: ["X1", "X1S", "X2", "M19", "M20X", "C100"],
+      super73: ["Z1", "ZX", "RX", "S2", "OG1"],
+      surron: ["Light Bee X", "Ultra Bee", "Storm Bee"],
+      talaria: ["Sting MX3", "Sting R MX4", "X3 MX"]
+    };
+
+    const kickstandCompatibility = {
+      "X1": ["evmod", "universal"],
+      "X1S": ["evmod"],
+      "X2": ["universal", "prolift"],
+      "M19": ["universal"],
+      "RX": ["evmod"],
+      "ZX": ["evmod", "prolift"]
+    };
+
+    const modelURLs = {
+      macfox: {
+        X1: {
+          stock: "https://sketchfab.com/models/5b91bdfd8f8445fa9266556950bd20c4/embed"
+        }
+      }
+    };
+
+    const brandSelect = document.getElementById("brandSelect");
+    const modelSelect = document.getElementById("modelSelect");
+    const bikeViewer = document.getElementById("bikeViewer");
+
+    function populateModels() {
+      const brand = brandSelect.value;
+      modelSelect.innerHTML = "";
+      brandModels[brand].forEach(model => {
+        const option = document.createElement("option");
+        option.value = model;
+        option.textContent = model;
+        modelSelect.appendChild(option);
+      });
+    }
+
+    function getModelKey() {
+      const seat = `${seatMaterial.value}_${seatColor.value}_${seatBrand.value}`;
+      const grips = `${gripType.value}_${gripColor.value}`;
+      const pegs = pegColor.value !== "none" ? `pegs_${pegColor.value}` : "";
+      const pedals = pedalColor.value !== "none" ? `pedals_${pedalColor.value}` : "";
+      const kick = kickstandModel.value !== "none" ? `kick_${kickstandModel.value}` : "";
+      const head = headlight.checked ? "headlight" : "";
+      const odiVal = odi.checked ? "odi" : "";
+      const rackVal = rack.checked ? "rack" : "";
+
+      return [seat, grips, pegs, pedals, kick, head, odiVal, rackVal].filter(Boolean).join("_");
+    }
+
+    function updateViewer() {
+      const brand = brandSelect.value;
+      const model = modelSelect.value;
+      const key = getModelKey();
+      const base = modelURLs[brand]?.[model]?.[key] || modelURLs[brand]?.[model]?.stock || "";
+      bikeViewer.src = base;
+
+      const kickstand = kickstandModel.value;
+      const check = document.getElementById("kickstandCheck");
+      if (kickstand === "none") {
+        check.textContent = "❓";
+      } else {
+        const isCompatible = (kickstandCompatibility[model] || []).includes(kickstand);
+        check.textContent = isCompatible ? "✅" : "❌";
+      }
+    }
+
+    const seatMaterial = document.getElementById("seatMaterial");
+    const seatColor = document.getElementById("seatColor");
+    const seatBrand = document.getElementById("seatBrand");
+    const gripType = document.getElementById("gripType");
+    const gripColor = document.getElementById("gripColor");
+    const pegColor = document.getElementById("pegColor");
+    const pedalColor = document.getElementById("pedalColor");
+    const kickstandModel = document.getElementById("kickstandModel");
+    const headlight = document.getElementById("headlight");
+    const odi = document.getElementById("odi");
+    const rack = document.getElementById("rack");
+
+    [
+      brandSelect, modelSelect, seatMaterial, seatColor, seatBrand,
+      gripType, gripColor, pegColor, pedalColor, kickstandModel,
+      headlight, odi, rack
+    ].forEach(el => el.addEventListener("change", updateViewer));
+
+    populateModels();
+    updateViewer();
+  </script>
 </body>
 </html>
