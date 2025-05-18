@@ -8,85 +8,82 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: #f4f4f4;
+      background: #f7f7f7;
       color: #333;
     }
     header {
-      background-color: #111;
+      background-color: #1a1a1a;
       color: white;
       padding: 20px;
       text-align: center;
     }
-    nav {
-      background-color: #222;
-    }
     nav ul {
       list-style: none;
-      margin: 0;
       padding: 0;
+      margin: 0;
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
+      background-color: #333;
     }
     nav li {
       margin: 0;
     }
     nav a {
-      display: block;
-      padding: 15px 20px;
       color: white;
       text-decoration: none;
+      padding: 15px 20px;
+      display: block;
     }
     nav a:hover {
-      background-color: #444;
+      background-color: #555;
     }
     .hero {
-      background: #e0e0e0;
-      padding: 60px 20px;
       text-align: center;
+      padding: 40px 20px;
+      background: #e3e3e3;
     }
     .hero h1 {
-      font-size: 2.5em;
       margin-bottom: 10px;
-    }
-    .hero p {
-      font-size: 1.2em;
+      font-size: 2em;
     }
     .button {
       display: inline-block;
-      margin-top: 20px;
       padding: 12px 25px;
-      background-color: #007bff;
+      margin-top: 15px;
+      background-color: #007BFF;
       color: white;
       text-decoration: none;
       border-radius: 5px;
+      font-size: 1rem;
     }
     section {
-      padding: 40px 20px;
+      padding: 30px 20px;
       text-align: center;
     }
     .brand-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 20px;
       margin-top: 20px;
     }
     .brand-card {
       background: white;
-      padding: 15px;
+      padding: 10px;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      height: auto;
-      transition: transform 0.3s ease;
-    }
-    .brand-card:hover {
-      transform: scale(1.03);
     }
     .brand-card img {
       width: 100%;
       height: auto;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 10px;
+      border-radius: 8px;
+    }
+    footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
     }
     .news {
       max-width: 800px;
@@ -94,78 +91,80 @@
       text-align: left;
     }
     .news h3 {
-      margin-top: 0;
+      margin-top: 20px;
+      margin-bottom: 5px;
     }
-    footer {
-      background-color: #111;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin-top: 60px;
+
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+      }
+      nav a {
+        text-align: center;
+        padding: 12px;
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>E-Bike Explorer</h1>
-    <p>Explore the best e-bikes and accessories across top brands</p>
-  </header>
+<header>
+  <h1>E-Bike Explorer</h1>
+  <p>Explore the best e-bikes and accessories across top brands.</p>
+</header>
 
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="ebikes.html">E-Bikes</a></li>
-      <li><a href="accessories.html">Accessories</a></li>
-      <li><a href="brands.html">Brands</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="3d.html">3D Viewer</a></li>
-    </ul>
-  </nav>
+<nav>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="ebikes.html">E-Bikes</a></li>
+    <li><a href="accessories.html">Accessories</a></li>
+    <li><a href="brands.html">Brands</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="3d.html">3D Viewer</a></li>
+  </ul>
+</nav>
 
-  <div class="hero">
-    <h1>Find Your Ride</h1>
-    <p>Discover the perfect electric bike and customize it with your dream mods.</p>
-    <a href="ebikes.html" class="button">Shop E-Bikes</a>
+<div class="hero">
+  <h1>Find Your Ride</h1>
+  <p>Discover the perfect electric bike and gear for your adventures.</p>
+  <a href="ebikes.html" class="button">Shop Now</a>
+</div>
+
+<section id="top-brands">
+  <h2>Top Brands</h2>
+  <div class="brand-grid">
+    <div class="brand-card">
+      <img src="https://i.imgur.com/Yw7T8dz.jpg" alt="Macfox">
+      <p>Macfox</p>
+    </div>
+    <div class="brand-card">
+      <img src="https://i.imgur.com/eMy8Q6k.jpg" alt="Super73">
+      <p>Super73</p>
+    </div>
+    <div class="brand-card">
+      <img src="https://i.imgur.com/Y4dAkF4.jpg" alt="Surron">
+      <p>Surron</p>
+    </div>
+    <div class="brand-card">
+      <img src="https://i.imgur.com/I1MGDZ2.jpg" alt="Talaria">
+      <p>Talaria</p>
+    </div>
   </div>
+</section>
 
-  <section id="top-brands">
-    <h2>Top Brands</h2>
-    <div class="brand-grid">
-      <div class="brand-card">
-        <img src="https://tse1.mm.bing.net/th?id=OIP.9vNzmN_FNH1vjNgZpU-acwHaE8&pid=Api" alt="Macfox" />
-        <p>Macfox</p>
-      </div>
-      <div class="brand-card">
-        <img src="https://tse1.mm.bing.net/th?id=OIP.5FFroBGVaOQR_YHLkXR0vwHaE8&pid=Api" alt="Super73" />
-        <p>Super73</p>
-      </div>
-      <div class="brand-card">
-        <img src="https://tse3.mm.bing.net/th?id=OIP.yBTDH2X920UOdzoRcAAR1AHaHa&pid=Api" alt="Surron" />
-        <p>Surron</p>
-      </div>
-      <div class="brand-card">
-        <img src="https://tse1.mm.bing.net/th?id=OIP.odmt0x06tnqqcGY7lRD6uQHaHa&pid=Api" alt="Talaria" />
-        <p>Talaria</p>
-      </div>
-    </div>
-  </section>
+<section class="news">
+  <h2>Latest News</h2>
+  <h3>Top 5 Must-Have E-Bike Accessories</h3>
+  <p>Discover which add-ons improve comfort and performance.</p>
 
-  <section class="news">
-    <h2>Latest News</h2>
-    <div>
-      <h3>Top 5 Must-Have E-Bike Accessories</h3>
-      <p>Boost your ride with these essential upgrades — from racks to custom grips.</p>
-    </div>
-    <div>
-      <h3>How to Customize Your Macfox X1</h3>
-      <p>Learn how to upgrade your seat, throttle, plate and more on your X1 model.</p>
-    </div>
-  </section>
+  <h3>How to Customize Your Macfox X1</h3>
+  <p>From pegs to racks — here's how to mod it right.</p>
+</section>
 
-  <footer>
-    <p>© 2025 E-Bike Explorer. All rights reserved.</p>
-  </footer>
+<footer>
+  <p>© 2025 E-Bike Explorer. All rights reserved.</p>
+</footer>
 
 </body>
 </html>
