@@ -3,246 +3,196 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>3D Bike Customizer</title>
+  <title>3D E-Bike Customizer</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
       margin: 0;
-      padding: 1rem;
+      background: #f0f0f0;
     }
-    h1, h2 {
-      text-align: center;
-    }
-    .back-button {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .back-button a {
-      padding: 10px 20px;
-      background: #007BFF;
+    header {
+      background: #111;
       color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      display: inline-block;
+      padding: 20px;
+      text-align: center;
     }
-    .controls {
+    .container {
+      padding: 20px;
+    }
+    .selectors {
       display: flex;
       flex-wrap: wrap;
+      gap: 15px;
       justify-content: center;
-      gap: 20px;
-      margin-bottom: 20px;
-    }
-    .controls > div {
-      min-width: 200px;
+      margin-bottom: 30px;
     }
     label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
+      display: flex;
+      flex-direction: column;
+      font-size: 0.95rem;
     }
-    select {
-      width: 100%;
+    select, input[type="checkbox"] {
       padding: 8px;
       font-size: 1rem;
     }
     iframe {
-      width: 100%;
-      max-width: 1000px;
+      width: 90%;
       height: 500px;
-      border: none;
+      border: 2px solid #ccc;
+      border-radius: 8px;
       display: block;
-      margin: 0 auto;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      margin: 0 auto 30px;
     }
     .compatibility-box {
-      max-width: 800px;
       background: #fff;
-      margin: 30px auto;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.15);
-    }
-    .compatibility-box h3 {
-      margin-top: 0;
-      text-align: center;
+      padding: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     .compatibility-box ul {
       list-style: none;
       padding: 0;
     }
     .compatibility-box li {
-      display: flex;
-      justify-content: space-between;
-      padding: 5px 0;
-      border-bottom: 1px solid #ddd;
+      margin: 8px 0;
     }
-    @media (max-width: 768px) {
-      .controls {
-        flex-direction: column;
-        align-items: center;
-      }
+    .back-btn {
+      text-align: center;
+      margin-top: 30px;
+    }
+    .back-btn a {
+      background: #007BFF;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 6px;
     }
   </style>
 </head>
 <body>
 
+<header>
   <h1>3D E-Bike Customizer</h1>
+</header>
 
-  <div class="back-button">
-    <a href="index.html">← Back to Home</a>
-  </div>
+<div class="container">
 
-  <div class="controls">
-    <div>
-      <label for="brand">Brand</label>
-      <select id="brand" onchange="updateModels()">
-        <option value="macfox">Macfox</option>
-        <option value="super73">Super73</option>
-        <option value="surron">Surron</option>
-        <option value="talaria">Talaria</option>
+  <div class="selectors">
+    <label>
+      Brand
+      <select id="brandSelect">
+        <option>Select Brand</option>
+        <option>Macfox</option>
+        <option>Super73</option>
+        <option>Surron</option>
+        <option>Talaria</option>
       </select>
-    </div>
+    </label>
 
-    <div>
-      <label for="model">Model</label>
-      <select id="model"></select>
-    </div>
-
-    <div>
-      <label for="seat">Seat Cover</label>
-      <select id="seat">
-        <option>None</option>
-        <option>Guts - Red</option>
-        <option>Guts - Black</option>
-        <option>Thrill Seekers - Camo</option>
-        <option>Thrill Seekers - Blue</option>
+    <label>
+      Model
+      <select id="modelSelect">
+        <option>Select Model</option>
+        <option>Macfox X1S</option>
+        <option>Super73 RX</option>
+        <option>Surron Light Bee X</option>
+        <option>Talaria Sting R MX4</option>
       </select>
-    </div>
+    </label>
 
-    <div>
-      <label for="grip">Handlebar Grips</label>
-      <select id="grip">
+    <label>
+      Seat Cover
+      <select>
         <option>None</option>
+        <option>Guts Racing</option>
+        <option>Thrill Seekers</option>
+      </select>
+    </label>
+
+    <label>
+      Headlight
+      <input type="checkbox" />
+    </label>
+
+    <label>
+      ODI Plate
+      <input type="checkbox" />
+    </label>
+
+    <label>
+      ODI Plate Color
+      <select>
         <option>Black</option>
         <option>Red</option>
         <option>White</option>
-        <option>Camo</option>
         <option>Blue</option>
+        <option>Green</option>
       </select>
-    </div>
+    </label>
 
-    <div>
-      <label for="pegs">Pegs</label>
-      <select id="pegs">
-        <option>None</option>
+    <label>
+      Peg Color
+      <select>
         <option>Black</option>
+        <option>Red</option>
         <option>Silver</option>
         <option>Gold</option>
-        <option>Red</option>
-        <option>Blue</option>
       </select>
-    </div>
+    </label>
 
-    <div>
-      <label for="pedals">Pedals</label>
-      <select id="pedals">
-        <option>None</option>
+    <label>
+      Pedal Color
+      <select>
         <option>Black</option>
         <option>Red</option>
-        <option>Green</option>
         <option>Blue</option>
         <option>Orange</option>
       </select>
-    </div>
+    </label>
 
-    <div>
-      <label for="kickstand">Kickstand</label>
-      <select id="kickstand">
-        <option value="none">None</option>
-        <option value="universal">Universal</option>
-        <option value="short_sport">Short Sport</option>
-        <option value="long_touring">Long Touring</option>
-        <option value="center_fold">Center Mount</option>
-        <option value="macfox_x1">Macfox X1 Kickstand</option>
-        <option value="super73_rx">Super73 RX Kickstand</option>
+    <label>
+      Kickstand Model
+      <select>
+        <option>Standard</option>
+        <option>Heavy-Duty</option>
+        <option>Folding</option>
       </select>
-    </div>
+    </label>
+
+    <label>
+      Grip Color
+      <select>
+        <option>Black</option>
+        <option>Red</option>
+        <option>Tan</option>
+        <option>White</option>
+        <option>Blue</option>
+      </select>
+    </label>
   </div>
 
-  <iframe id="bikeViewer" src="https://sketchfab.com/models/5b91bdfd8f8445fa9266556950bd20c4/embed" allowfullscreen></iframe>
+  <iframe src="https://sketchfab.com/models/5b91bdfd8f8445fa9266556950bd20c4/embed" allowfullscreen></iframe>
 
   <div class="compatibility-box">
     <h3>Accessory Compatibility</h3>
     <ul>
-      <li><span>Seat Cover</span> <span id="seatOK">✅</span></li>
-      <li><span>Grips</span> <span id="gripOK">✅</span></li>
-      <li><span>Pegs</span> <span id="pegsOK">✅</span></li>
-      <li><span>Pedals</span> <span id="pedalsOK">✅</span></li>
-      <li><span>Kickstand</span> <span id="kickOK">✅</span></li>
+      <li>Seat Cover: ✅</li>
+      <li>ODI Plate: ✅</li>
+      <li>Headlight: ✅</li>
+      <li>Pegs: ✅</li>
+      <li>Pedals: ✅</li>
+      <li>Kickstand: ✅/❌ depending on model</li>
+      <li>Handlebar Grips: ✅</li>
     </ul>
   </div>
 
-  <script>
-    const modelsByBrand = {
-      macfox: ["X1S", "X1S x Bs.zay", "X2", "M19", "M20X", "C100"],
-      super73: [
-        "Z1", "Z Miami Core", "Z Miami SE", "ZX Core", "ZX SE", "Z Adventure Core", "Z Adventure SE",
-        "S1", "S2", "S2 x Indian", "S Adventure", "S Blackout SE",
-        "R", "RX", "R Brooklyn", "R Adventure", "R Blackout SE",
-        "K1D", "OG1", "OG2", "SG1"
-      ],
-      surron: ["Light Bee X", "Light Bee S", "Light Bee L1E", "Ultra Bee", "Storm Bee", "Hyper Bee"],
-      talaria: [
-        "Sting MX3", "Sting R MX4", "Sting R MX4 Expert", "Sting MX5 Pro", "Sting Pro",
-        "Sting R L1E Road Legal", "Sting R L3E Road Legal", "X3 MX", "X3 Road Legal", "Dragon", "Komodo"
-      ]
-    };
+  <div class="back-btn">
+    <a href="index.html">← Back to Home</a>
+  </div>
 
-    function updateModels() {
-      const brand = document.getElementById("brand").value;
-      const modelSelect = document.getElementById("model");
-      modelSelect.innerHTML = "";
-      modelsByBrand[brand].forEach(model => {
-        const opt = document.createElement("option");
-        opt.value = model;
-        opt.textContent = model;
-        modelSelect.appendChild(opt);
-      });
-      updateCompatibility();
-    }
-
-    function updateCompatibility() {
-      const model = document.getElementById("model").value;
-      const kick = document.getElementById("kickstand").value;
-
-      document.getElementById("seatOK").textContent = "✅";
-      document.getElementById("gripOK").textContent = "✅";
-      document.getElementById("pegsOK").textContent = "✅";
-      document.getElementById("pedalsOK").textContent = "✅";
-
-      const macfoxCompatible = ["X1S", "X1S x Bs.zay", "X2"];
-      const super73Compatible = ["RX", "S2"];
-
-      let kickOK = "❌";
-      if (
-        kick === "none" || kick === "universal" || kick === "short_sport" || kick === "long_touring" || kick === "center_fold"
-      ) {
-        kickOK = "✅";
-      } else if (kick === "macfox_x1" && macfoxCompatible.includes(model)) {
-        kickOK = "✅";
-      } else if (kick === "super73_rx" && super73Compatible.includes(model)) {
-        kickOK = "✅";
-      }
-
-      document.getElementById("kickOK").textContent = kickOK;
-    }
-
-    updateModels();
-    document.getElementById("kickstand").addEventListener("change", updateCompatibility);
-    document.getElementById("model").addEventListener("change", updateCompatibility);
-  </script>
+</div>
 
 </body>
 </html>
