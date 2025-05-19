@@ -183,15 +183,7 @@
 
   <div class="compatibility-box">
     <h3>Accessory Compatibility</h3>
-    <ul id="compatibilityList">
-      <li><span>Seat Cover</span> <span>❓</span></li>
-      <li><span>ODI Plate</span> <span>❓</span></li>
-      <li><span>Headlight</span> <span>❓</span></li>
-      <li><span>Pegs</span> <span>❓</span></li>
-      <li><span>Pedals</span> <span>❓</span></li>
-      <li><span>Kickstand</span> <span>❓</span></li>
-      <li><span>Handlebar Grips</span> <span>❓</span></li>
-    </ul>
+    <ul id="compatibilityList"></ul>
   </div>
 
   <div class="save-btn">
@@ -229,10 +221,11 @@
   function filterModels() {
     const brand = document.getElementById("brandSelect").value;
     const models = brandModels[brand] || [];
-    modelSelect.innerHTML = "";
+    modelSelect.innerHTML = "<option>Select Model</option>";
     models.forEach(m => {
       const opt = document.createElement("option");
       opt.textContent = m;
+      opt.value = m;
       modelSelect.appendChild(opt);
     });
   }
