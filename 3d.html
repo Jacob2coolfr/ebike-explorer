@@ -47,41 +47,40 @@
     }
     .compatibility-box {
       background: white;
-      padding: 15px;
+      padding: 20px;
       border-radius: 8px;
       max-width: 500px;
       margin: 0 auto;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .compatibility-box h3 {
+      margin-bottom: 15px;
     }
     .compatibility-box ul {
       list-style: none;
       padding: 0;
     }
     .compatibility-box li {
-      padding: 5px 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid #eee;
     }
-    .back-btn {
+    .back-btn, .save-btn {
       text-align: center;
       margin-top: 30px;
     }
-    .back-btn a {
+    .back-btn a, .save-btn button {
       background: #007BFF;
       color: white;
       padding: 10px 20px;
       text-decoration: none;
       border-radius: 6px;
-    }
-    .save-btn {
-      text-align: center;
-      margin-top: 20px;
+      border: none;
+      cursor: pointer;
     }
     .save-btn button {
       background: #28a745;
-      color: white;
-      padding: 10px 24px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
     }
   </style>
 </head>
@@ -107,13 +106,12 @@
 
     <label>
       Model
-      <select id="modelSelect">
+      <select id="modelSelect" onchange="updateCompatibility()">
         <option>Select Model</option>
       </select>
     </label>
 
-    <label>
-      Seat Cover
+    <label>Seat Cover
       <select>
         <option>None</option>
         <option>Guts Racing - Black</option>
@@ -123,13 +121,9 @@
       </select>
     </label>
 
-    <label>
-      ODI Plate
-      <input type="checkbox" />
-    </label>
+    <label>ODI Plate <input type="checkbox"></label>
 
-    <label>
-      ODI Plate Color
+    <label>ODI Plate Color
       <select>
         <option>Black</option>
         <option>Red</option>
@@ -138,8 +132,7 @@
       </select>
     </label>
 
-    <label>
-      Headlight
+    <label>Headlight
       <select>
         <option>None</option>
         <option>Trail Tech</option>
@@ -147,8 +140,7 @@
       </select>
     </label>
 
-    <label>
-      Pegs
+    <label>Pegs
       <select>
         <option>None</option>
         <option>Black</option>
@@ -157,8 +149,7 @@
       </select>
     </label>
 
-    <label>
-      Pedals
+    <label>Pedals
       <select>
         <option>None</option>
         <option>Black</option>
@@ -167,8 +158,7 @@
       </select>
     </label>
 
-    <label>
-      Kickstand
+    <label>Kickstand
       <select>
         <option>Standard</option>
         <option>Folding</option>
@@ -177,15 +167,14 @@
       </select>
     </label>
 
-    <label>
-      Handlebar Grips
+    <label>Grips
       <select>
         <option>Black</option>
         <option>Red</option>
-        <option>Tan</option>
         <option>White</option>
+        <option>Tan</option>
         <option>ProTaper - Blue</option>
-        <option>ProTaper - Neon Green</option>
+        <option>ProTaper - Green</option>
       </select>
     </label>
   </div>
@@ -194,34 +183,47 @@
 
   <div class="compatibility-box">
     <h3>Accessory Compatibility</h3>
-    <ul>
-      <li>Seat Cover: ✅</li>
-      <li>ODI Plate: ✅</li>
-      <li>Headlight: ✅</li>
-      <li>Pegs: ✅</li>
-      <li>Pedals: ✅</li>
-      <li>Kickstand: ✅/❌ depending on model</li>
-      <li>Handlebar Grips: ✅</li>
+    <ul id="compatibilityList">
+      <li><span>Seat Cover</span> <span>❓</span></li>
+      <li><span>ODI Plate</span> <span>❓</span></li>
+      <li><span>Headlight</span> <span>❓</span></li>
+      <li><span>Pegs</span> <span>❓</span></li>
+      <li><span>Pedals</span> <span>❓</span></li>
+      <li><span>Kickstand</span> <span>❓</span></li>
+      <li><span>Handlebar Grips</span> <span>❓</span></li>
     </ul>
   </div>
 
   <div class="save-btn">
-    <button onclick="alert('Build saved (functionality coming soon).')">💾 Save My Build</button>
+    <button onclick="alert('✅ Build saved! (Preview only)')">💾 Save My Build</button>
   </div>
 
   <div class="back-btn">
     <a href="index.html">← Back to Home</a>
   </div>
-
 </div>
 
 <script>
   const modelSelect = document.getElementById("modelSelect");
+  const compatibilityList = document.getElementById("compatibilityList");
+
   const brandModels = {
     macfox: ["X1S", "X2", "X1S x Bs.zay", "M19", "M20X", "C100"],
     super73: ["Z1", "Z Miami", "ZX", "S1", "S2", "R", "RX", "R Adventure"],
     surron: ["Light Bee X", "Light Bee S", "Ultra Bee", "Storm Bee", "Hyper Bee"],
     talaria: ["Sting MX3", "Sting R MX4", "Sting Pro", "X3 MX", "Dragon", "Komodo"]
+  };
+
+  const compatibility = {
+    "X1S":         [true, true, true, true, true, true, true],
+    "X2":          [true, true, true, true, true, false, true],
+    "C100":        [false, false, true, false, true, true, true],
+    "RX":          [true, true, true, true, true, true, true],
+    "R":           [true, true, true, true, true, true, true],
+    "Light Bee X": [true, false, true, true, false, true, true],
+    "Ultra Bee":   [true, true, true, false, true, true, true],
+    "Sting MX3":   [true, true, true, true, true, false, true],
+    "Komodo":      [true, false, false, false, false, false, true]
   };
 
   function filterModels() {
@@ -233,6 +235,21 @@
       opt.textContent = m;
       modelSelect.appendChild(opt);
     });
+  }
+
+  function updateCompatibility() {
+    const model = modelSelect.value;
+    const checks = compatibility[model] || [false, false, false, false, false, false, false];
+    const labels = [
+      "Seat Cover", "ODI Plate", "Headlight",
+      "Pegs", "Pedals", "Kickstand", "Handlebar Grips"
+    ];
+    compatibilityList.innerHTML = "";
+    for (let i = 0; i < labels.length; i++) {
+      const row = document.createElement("li");
+      row.innerHTML = `<span>${labels[i]}</span><span>${checks[i] ? "✅" : "❌"}</span>`;
+      compatibilityList.appendChild(row);
+    }
   }
 </script>
 
