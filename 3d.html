@@ -5,96 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>3D E-Bike Customizer</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f4f4f4;
-    }
-    header {
-      background: #111;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-    }
-    .container {
-      padding: 20px;
-      max-width: 1200px;
-      margin: auto;
-    }
-    .selectors {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-      margin-bottom: 30px;
-    }
-    label {
-      display: flex;
-      flex-direction: column;
-      font-size: 0.95rem;
-    }
-    select, input[type="checkbox"], button {
-      padding: 8px;
-      font-size: 1rem;
-      min-width: 180px;
+    body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; }
+    header { background: #111; color: white; padding: 20px; text-align: center; }
+    .container { max-width: 1200px; margin: auto; padding: 20px; }
+    .selectors { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+    label { display: flex; flex-direction: column; font-size: 0.9rem; }
+    select, input[type="checkbox"] {
+      padding: 8px; font-size: 1rem; min-width: 180px;
     }
     iframe {
-      width: 100%;
-      height: 500px;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      margin: 20px 0;
+      width: 100%; height: 500px; border: none;
+      margin: 30px 0; border-radius: 8px;
+    }
+    .preview-area {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 20px 0;
+    }
+    .preview-area img {
+      max-height: 80px; border-radius: 6px; border: 2px solid #ccc;
     }
     .compatibility-box {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 500px;
-      margin: 0 auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .compatibility-box h3 {
-      margin-bottom: 15px;
+      background: white; padding: 20px; border-radius: 8px;
+      max-width: 500px; margin: 20px auto; box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     .compatibility-box ul {
-      list-style: none;
-      padding: 0;
+      list-style: none; padding: 0;
     }
     .compatibility-box li {
-      display: flex;
-      justify-content: space-between;
-      padding: 6px 0;
-      border-bottom: 1px solid #eee;
+      display: flex; justify-content: space-between;
+      padding: 6px 0; border-bottom: 1px solid #eee;
     }
-    .back-btn, .save-btn {
-      text-align: center;
-      margin-top: 30px;
+    .footer-btns {
+      text-align: center; margin-top: 30px;
     }
-    .back-btn a, .save-btn button {
-      background: #007BFF;
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
+    .footer-btns a, .footer-btns button {
+      background: #007BFF; color: white; padding: 10px 20px;
+      text-decoration: none; border: none; margin: 5px;
+      border-radius: 6px; cursor: pointer;
     }
-    .save-btn button {
-      background: #28a745;
-    }
+    .footer-btns button { background: #28a745; }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>3D E-Bike Customizer</h1>
+  <h1>3D E-Bike Customizer (Preview)</h1>
 </header>
 
 <div class="container">
 
   <div class="selectors">
-    <label>
-      Brand
+    <label>Brand
       <select id="brandSelect" onchange="filterModels()">
         <option value="">Select Brand</option>
         <option value="macfox">Macfox</option>
@@ -104,145 +64,156 @@
       </select>
     </label>
 
-    <label>
-      Model
-      <select id="modelSelect" onchange="updateCompatibility()">
+    <label>Model
+      <select id="modelSelect" onchange="updateModel(); updateCompatibility();">
         <option>Select Model</option>
       </select>
     </label>
 
     <label>Seat Cover
-      <select>
-        <option>None</option>
-        <option>Guts Racing - Black</option>
-        <option>Guts Racing - Red</option>
-        <option>Thrill Seekers - Blue</option>
-        <option>Thrill Seekers - Camo</option>
+      <select onchange="updatePreview('seat', this.value)">
+        <option value="">None</option>
+        <option value="guts-black">Guts Black</option>
+        <option value="thrill-blue">Thrill Blue</option>
       </select>
     </label>
 
-    <label>ODI Plate <input type="checkbox"></label>
+    <label>ODI Plate <input type="checkbox" onchange="togglePreview('odi', this.checked)"></label>
 
     <label>ODI Plate Color
-      <select>
-        <option>Black</option>
-        <option>Red</option>
-        <option>White</option>
-        <option>Blue</option>
-      </select>
-    </label>
-
-    <label>Headlight
-      <select>
-        <option>None</option>
-        <option>Trail Tech</option>
-        <option>Standard Round</option>
-      </select>
-    </label>
-
-    <label>Pegs
-      <select>
-        <option>None</option>
-        <option>Black</option>
-        <option>Red</option>
-        <option>Gold</option>
-      </select>
-    </label>
-
-    <label>Pedals
-      <select>
-        <option>None</option>
-        <option>Black</option>
-        <option>Blue</option>
-        <option>Orange</option>
-      </select>
-    </label>
-
-    <label>Kickstand
-      <select>
-        <option>Standard</option>
-        <option>Folding</option>
-        <option>Heavy-Duty</option>
-        <option>Short Racing</option>
+      <select onchange="updatePreview('odiColor', this.value)">
+        <option value="">Black</option>
+        <option value="red">Red</option>
+        <option value="white">White</option>
       </select>
     </label>
 
     <label>Grips
-      <select>
-        <option>Black</option>
-        <option>Red</option>
-        <option>White</option>
-        <option>Tan</option>
-        <option>ProTaper - Blue</option>
-        <option>ProTaper - Green</option>
+      <select onchange="updatePreview('grip', this.value)">
+        <option value="">Black</option>
+        <option value="blue">Blue</option>
+        <option value="tan">Tan</option>
+      </select>
+    </label>
+
+    <label>Kickstand
+      <select onchange="updatePreview('kickstand', this.value)">
+        <option>None</option>
+        <option>Dual Leg</option>
+        <option>Side Mount</option>
       </select>
     </label>
   </div>
 
-  <iframe src="https://sketchfab.com/models/5b91bdfd8f8445fa9266556950bd20c4/embed" allowfullscreen></iframe>
+  <iframe id="modelFrame" src="https://sketchfab.com/models/5b91bdfd8f8445fa9266556950bd20c4/embed"></iframe>
+
+  <div class="preview-area" id="previewArea"></div>
 
   <div class="compatibility-box">
     <h3>Accessory Compatibility</h3>
     <ul id="compatibilityList"></ul>
   </div>
 
-  <div class="save-btn">
-    <button onclick="alert('✅ Build saved! (Preview only)')">💾 Save My Build</button>
-  </div>
-
-  <div class="back-btn">
+  <div class="footer-btns">
+    <button onclick="alert('✅ Build saved (demo)!')">💾 Save My Build</button>
     <a href="index.html">← Back to Home</a>
   </div>
+
 </div>
 
 <script>
-  const modelSelect = document.getElementById("modelSelect");
-  const compatibilityList = document.getElementById("compatibilityList");
-
   const brandModels = {
-    macfox: ["X1S", "X2", "X1S x Bs.zay", "M19", "M20X", "C100"],
-    super73: ["Z1", "Z Miami", "ZX", "S1", "S2", "R", "RX", "R Adventure"],
-    surron: ["Light Bee X", "Light Bee S", "Ultra Bee", "Storm Bee", "Hyper Bee"],
-    talaria: ["Sting MX3", "Sting R MX4", "Sting Pro", "X3 MX", "Dragon", "Komodo"]
+    macfox: ["X1S", "X2"],
+    super73: ["Z1", "RX"],
+    surron: ["Light Bee X"],
+    talaria: ["Sting R"]
   };
 
-  const compatibility = {
-    "X1S":         [true, true, true, true, true, true, true],
-    "X2":          [true, true, true, true, true, false, true],
-    "C100":        [false, false, true, false, true, true, true],
-    "RX":          [true, true, true, true, true, true, true],
-    "R":           [true, true, true, true, true, true, true],
-    "Light Bee X": [true, false, true, true, false, true, true],
-    "Ultra Bee":   [true, true, true, false, true, true, true],
-    "Sting MX3":   [true, true, true, true, true, false, true],
-    "Komodo":      [true, false, false, false, false, false, true]
+  const modelSketchfabLinks = {
+    "X1S": "https://sketchfab.com/models/f6a4f2738c17405399c85a4e41a4eb41/embed",
+    "X2": "https://sketchfab.com/models/6db8cf3490e6494f8a6b26c5f6c9e64d/embed",
+    "Z1": "https://sketchfab.com/models/c0143b30162f4e3f8a25d5d0631c6b61/embed",
+    "RX": "https://sketchfab.com/models/fb9a99f4703440fc8617b1e25d7a8e09/embed",
+    "Light Bee X": "https://sketchfab.com/models/58d2d7a7bdc34d9a94732d6c9b097e1d/embed",
+    "Sting R": "https://sketchfab.com/models/a9c6f32e20de4191bb7c6f7db4f5fd64/embed"
+  };
+
+  const previews = {
+    seat: {
+      "guts-black": "https://i.imgur.com/XzC3fTe.png",
+      "thrill-blue": "https://i.imgur.com/yxxOObm.png"
+    },
+    odi: "https://i.imgur.com/8RnBjDk.png",
+    odiColor: {
+      red: "https://i.imgur.com/B2oOwVb.png",
+      white: "https://i.imgur.com/z5F7CFR.png"
+    },
+    grip: {
+      blue: "https://i.imgur.com/hIjOwUl.png",
+      tan: "https://i.imgur.com/IWEl7xV.png"
+    },
+    kickstand: {
+      "Dual Leg": "https://i.imgur.com/4rkTuWN.png",
+      "Side Mount": "https://i.imgur.com/qAKl0Vg.png"
+    }
   };
 
   function filterModels() {
     const brand = document.getElementById("brandSelect").value;
-    const models = brandModels[brand] || [];
+    const modelSelect = document.getElementById("modelSelect");
     modelSelect.innerHTML = "<option>Select Model</option>";
-    models.forEach(m => {
+    (brandModels[brand] || []).forEach(model => {
       const opt = document.createElement("option");
-      opt.textContent = m;
-      opt.value = m;
+      opt.value = model;
+      opt.textContent = model;
       modelSelect.appendChild(opt);
     });
   }
 
-  function updateCompatibility() {
-    const model = modelSelect.value;
-    const checks = compatibility[model] || [false, false, false, false, false, false, false];
-    const labels = [
-      "Seat Cover", "ODI Plate", "Headlight",
-      "Pegs", "Pedals", "Kickstand", "Handlebar Grips"
-    ];
-    compatibilityList.innerHTML = "";
-    for (let i = 0; i < labels.length; i++) {
-      const row = document.createElement("li");
-      row.innerHTML = `<span>${labels[i]}</span><span>${checks[i] ? "✅" : "❌"}</span>`;
-      compatibilityList.appendChild(row);
+  function updateModel() {
+    const model = document.getElementById("modelSelect").value;
+    const frame = document.getElementById("modelFrame");
+    const src = modelSketchfabLinks[model] || "https://sketchfab.com/models/5b91bdfd8f8445fa9266556950bd20c4/embed";
+    frame.src = src;
+  }
+
+  function updatePreview(type, value) {
+    const area = document.getElementById("previewArea");
+    const imgSrc = previews[type]?.[value];
+    if (imgSrc) {
+      const img = document.createElement("img");
+      img.src = imgSrc;
+      img.alt = value;
+      img.title = type + " - " + value;
+      img.dataset.tag = type;
+      removeOldPreview(type);
+      area.appendChild(img);
     }
+  }
+
+  function togglePreview(type, enabled) {
+    if (enabled) updatePreview(type, "default");
+    else removeOldPreview(type);
+  }
+
+  function removeOldPreview(tag) {
+    const area = document.getElementById("previewArea");
+    [...area.children].forEach(el => {
+      if (el.dataset.tag === tag) area.removeChild(el);
+    });
+  }
+
+  function updateCompatibility() {
+    const model = document.getElementById("modelSelect").value;
+    const compatible = ["✅", "✅", "✅", "✅", "✅", "✅"];
+    const items = ["Seat Cover", "ODI Plate", "Grips", "Kickstand", "Pegs", "Headlight"];
+    const list = document.getElementById("compatibilityList");
+    list.innerHTML = "";
+    items.forEach((label, i) => {
+      const li = document.createElement("li");
+      li.innerHTML = `<span>${label}</span><span>${compatible[i]}</span>`;
+      list.appendChild(li);
+    });
   }
 </script>
 
