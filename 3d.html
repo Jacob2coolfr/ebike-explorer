@@ -8,16 +8,18 @@
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      background: #f0f0f0;
+      background: #f4f4f4;
     }
     header {
       background: #111;
-      color: white;
+      color: #fff;
       padding: 20px;
       text-align: center;
     }
     .container {
       padding: 20px;
+      max-width: 1200px;
+      margin: auto;
     }
     .selectors {
       display: flex;
@@ -31,24 +33,24 @@
       flex-direction: column;
       font-size: 0.95rem;
     }
-    select, input[type="checkbox"] {
+    select, input[type="checkbox"], button {
       padding: 8px;
       font-size: 1rem;
+      min-width: 180px;
     }
     iframe {
-      width: 90%;
+      width: 100%;
       height: 500px;
       border: 2px solid #ccc;
       border-radius: 8px;
-      display: block;
-      margin: 0 auto 30px;
+      margin: 20px 0;
     }
     .compatibility-box {
-      background: #fff;
-      padding: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
       max-width: 500px;
       margin: 0 auto;
-      border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     .compatibility-box ul {
@@ -56,7 +58,7 @@
       padding: 0;
     }
     .compatibility-box li {
-      margin: 8px 0;
+      padding: 5px 0;
     }
     .back-btn {
       text-align: center;
@@ -65,9 +67,21 @@
     .back-btn a {
       background: #007BFF;
       color: white;
-      padding: 12px 24px;
+      padding: 10px 20px;
       text-decoration: none;
       border-radius: 6px;
+    }
+    .save-btn {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .save-btn button {
+      background: #28a745;
+      color: white;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -82,12 +96,12 @@
   <div class="selectors">
     <label>
       Brand
-      <select id="brandSelect">
-        <option>Select Brand</option>
-        <option>Macfox</option>
-        <option>Super73</option>
-        <option>Surron</option>
-        <option>Talaria</option>
+      <select id="brandSelect" onchange="filterModels()">
+        <option value="">Select Brand</option>
+        <option value="macfox">Macfox</option>
+        <option value="super73">Super73</option>
+        <option value="surron">Surron</option>
+        <option value="talaria">Talaria</option>
       </select>
     </label>
 
@@ -95,10 +109,6 @@
       Model
       <select id="modelSelect">
         <option>Select Model</option>
-        <option>Macfox X1S</option>
-        <option>Super73 RX</option>
-        <option>Surron Light Bee X</option>
-        <option>Talaria Sting R MX4</option>
       </select>
     </label>
 
@@ -106,14 +116,11 @@
       Seat Cover
       <select>
         <option>None</option>
-        <option>Guts Racing</option>
-        <option>Thrill Seekers</option>
+        <option>Guts Racing - Black</option>
+        <option>Guts Racing - Red</option>
+        <option>Thrill Seekers - Blue</option>
+        <option>Thrill Seekers - Camo</option>
       </select>
-    </label>
-
-    <label>
-      Headlight
-      <input type="checkbox" />
     </label>
 
     <label>
@@ -128,47 +135,57 @@
         <option>Red</option>
         <option>White</option>
         <option>Blue</option>
-        <option>Green</option>
       </select>
     </label>
 
     <label>
-      Peg Color
+      Headlight
       <select>
+        <option>None</option>
+        <option>Trail Tech</option>
+        <option>Standard Round</option>
+      </select>
+    </label>
+
+    <label>
+      Pegs
+      <select>
+        <option>None</option>
         <option>Black</option>
         <option>Red</option>
-        <option>Silver</option>
         <option>Gold</option>
       </select>
     </label>
 
     <label>
-      Pedal Color
+      Pedals
       <select>
+        <option>None</option>
         <option>Black</option>
-        <option>Red</option>
         <option>Blue</option>
         <option>Orange</option>
       </select>
     </label>
 
     <label>
-      Kickstand Model
+      Kickstand
       <select>
         <option>Standard</option>
-        <option>Heavy-Duty</option>
         <option>Folding</option>
+        <option>Heavy-Duty</option>
+        <option>Short Racing</option>
       </select>
     </label>
 
     <label>
-      Grip Color
+      Handlebar Grips
       <select>
         <option>Black</option>
         <option>Red</option>
         <option>Tan</option>
         <option>White</option>
-        <option>Blue</option>
+        <option>ProTaper - Blue</option>
+        <option>ProTaper - Neon Green</option>
       </select>
     </label>
   </div>
@@ -188,11 +205,36 @@
     </ul>
   </div>
 
+  <div class="save-btn">
+    <button onclick="alert('Build saved (functionality coming soon).')">💾 Save My Build</button>
+  </div>
+
   <div class="back-btn">
     <a href="index.html">← Back to Home</a>
   </div>
 
 </div>
+
+<script>
+  const modelSelect = document.getElementById("modelSelect");
+  const brandModels = {
+    macfox: ["X1S", "X2", "X1S x Bs.zay", "M19", "M20X", "C100"],
+    super73: ["Z1", "Z Miami", "ZX", "S1", "S2", "R", "RX", "R Adventure"],
+    surron: ["Light Bee X", "Light Bee S", "Ultra Bee", "Storm Bee", "Hyper Bee"],
+    talaria: ["Sting MX3", "Sting R MX4", "Sting Pro", "X3 MX", "Dragon", "Komodo"]
+  };
+
+  function filterModels() {
+    const brand = document.getElementById("brandSelect").value;
+    const models = brandModels[brand] || [];
+    modelSelect.innerHTML = "";
+    models.forEach(m => {
+      const opt = document.createElement("option");
+      opt.textContent = m;
+      modelSelect.appendChild(opt);
+    });
+  }
+</script>
 
 </body>
 </html>
