@@ -2,49 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>3D E-Bike Customizer</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
       background: #fff;
-    }
-
-    header {
-      background: #2c2c2c;
-      color: white;
-      padding: 15px;
+      color: #333;
       text-align: center;
-      font-size: 24px;
     }
-
+    header {
+      background: #222;
+      color: #fff;
+      padding: 1rem;
+      font-size: 1.5rem;
+    }
     .controls {
-      padding: 15px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      background: #f4f4f4;
+      margin: 1rem auto;
     }
-
-    .controls select {
-      padding: 6px;
-      font-size: 14px;
-    }
-
     model-viewer {
       width: 100%;
-      height: 600px;
-      background: #f0f0f0;
-    }
-
-    @media screen and (max-width: 768px) {
-      .controls {
-        flex-direction: column;
-        align-items: center;
-      }
+      height: 500px;
+      margin-top: 1rem;
     }
   </style>
 </head>
@@ -53,91 +33,30 @@
   <header>3D E-Bike Customizer</header>
 
   <div class="controls">
-    <select id="brandSelect">
-      <option value="">Select Brand</option>
-      <option value="macfox">Macfox</option>
-      <option value="super73">Super73</option>
-      <option value="surron">Surron</option>
-      <option value="talaria">Talaria</option>
-    </select>
-
+    <label for="modelSelect">Model:</label>
     <select id="modelSelect">
-      <option value="">Select Model</option>
-    </select>
-
-    <select id="seatCoverSelect">
-      <option value="">Seat Cover</option>
-      <option value="none">None</option>
-      <option value="seatcover">Guts Seat Cover</option>
-    </select>
-
-    <select id="odiSelect">
-      <option value="">ODI Plate</option>
-      <option value="none">None</option>
-      <option value="odi">ODI Plate</option>
+      <option value="models/macfox-x1.glb">Macfox X1 (Base)</option>
+      <option value="models/macfox-x1-odi.glb">Macfox X1 with ODI Plate</option>
+      <option value="models/macfox-x1-seatcover.glb">Macfox X1 with Seat Cover</option>
     </select>
   </div>
 
   <model-viewer id="bikeViewer"
-    src=""
-    alt="E-Bike 3D Model"
-    shadow-intensity="1"
-    camera-controls
+    src="models/macfox-x1.glb"
+    alt="3D model of Macfox X1"
     auto-rotate
-    ar>
+    camera-controls
+    background-color="#ffffff">
   </model-viewer>
 
   <script>
-    const brandSelect = document.getElementById("brandSelect");
-    const modelSelect = document.getElementById("modelSelect");
-    const bikeViewer = document.getElementById("bikeViewer");
-    const seatCoverSelect = document.getElementById("seatCoverSelect");
-    const odiSelect = document.getElementById("odiSelect");
+    const viewer = document.getElementById('bikeViewer');
+    const modelSelect = document.getElementById('modelSelect');
 
-    const models = {
-      macfox: ["x1"],
-      super73: ["rx"],
-      surron: ["lightbee"],
-      talaria: ["sting"]
-    };
-
-    const updateModelOptions = () => {
-      const brand = brandSelect.value;
-      modelSelect.innerHTML = `<option value="">Select Model</option>`;
-      if (models[brand]) {
-        models[brand].forEach((model) => {
-          const opt = document.createElement("option");
-          opt.value = model;
-          opt.textContent = model.toUpperCase();
-          modelSelect.appendChild(opt);
-        });
-      }
-    };
-
-    const updateModelViewer = () => {
-      const brand = brandSelect.value;
-      const model = modelSelect.value;
-      const seat = seatCoverSelect.value;
-      const odi = odiSelect.value;
-
-      let fileName = `models/${brand}-${model}`;
-
-      if (seat !== "none" && seat !== "") fileName += `-seatcover`;
-      if (odi !== "none" && odi !== "") fileName += `-odi`;
-
-      fileName += `.glb`;
-
-      bikeViewer.src = fileName;
-    };
-
-    brandSelect.addEventListener("change", () => {
-      updateModelOptions();
-      updateModelViewer();
+    modelSelect.addEventListener('change', () => {
+      viewer.src = modelSelect.value;
     });
-
-    modelSelect.addEventListener("change", updateModelViewer);
-    seatCoverSelect.addEventListener("change", updateModelViewer);
-    odiSelect.addEventListener("change", updateModelViewer);
   </script>
+
 </body>
 </html>
