@@ -8,27 +8,43 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
       margin: 0;
-      padding: 0;
-      text-align: center;
+      background: #fff;
     }
+
     header {
-      background: #222;
+      background: #2c2c2c;
       color: white;
-      padding: 20px;
+      padding: 15px;
+      text-align: center;
       font-size: 24px;
     }
-    select, label {
-      margin: 10px;
-      padding: 5px;
-      font-size: 16px;
+
+    .controls {
+      padding: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      background: #f4f4f4;
     }
+
+    .controls select {
+      padding: 6px;
+      font-size: 14px;
+    }
+
     model-viewer {
       width: 100%;
-      max-width: 800px;
-      height: 500px;
-      margin: 20px auto;
+      height: 600px;
+      background: #f0f0f0;
+    }
+
+    @media screen and (max-width: 768px) {
+      .controls {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
@@ -36,38 +52,35 @@
 
   <header>3D E-Bike Customizer</header>
 
-  <div>
-    <label>Brand:
-      <select id="brand" onchange="updateModelOptions()">
-        <option value="Macfox">Macfox</option>
-        <!-- Add other brands here -->
-      </select>
-    </label>
+  <div class="controls">
+    <select id="brandSelect">
+      <option value="">Select Brand</option>
+      <option value="macfox">Macfox</option>
+      <option value="super73">Super73</option>
+      <option value="surron">Surron</option>
+      <option value="talaria">Talaria</option>
+    </select>
 
-    <label>Model:
-      <select id="model" onchange="updateModel()">
-        <option value="x1">X1</option>
-      </select>
-    </label>
+    <select id="modelSelect">
+      <option value="">Select Model</option>
+    </select>
 
-    <label>Seat Cover:
-      <select id="seatCover" onchange="updateModel()">
-        <option value="none">None</option>
-        <option value="seatcover">Guts Racing Seat Cover</option>
-      </select>
-    </label>
+    <select id="seatCoverSelect">
+      <option value="">Seat Cover</option>
+      <option value="none">None</option>
+      <option value="seatcover">Guts Seat Cover</option>
+    </select>
 
-    <label>ODI Plate:
-      <select id="odiPlate" onchange="updateModel()">
-        <option value="none">None</option>
-        <option value="odi">ODI Plate</option>
-      </select>
-    </label>
+    <select id="odiSelect">
+      <option value="">ODI Plate</option>
+      <option value="none">None</option>
+      <option value="odi">ODI Plate</option>
+    </select>
   </div>
 
   <model-viewer id="bikeViewer"
-    alt="3D Bike Model"
     src=""
+    alt="E-Bike 3D Model"
     shadow-intensity="1"
     camera-controls
     auto-rotate
@@ -75,37 +88,56 @@
   </model-viewer>
 
   <script>
-    function updateModel() {
-      const model = document.getElementById("model").value;
-      const seatCover = document.getElementById("seatCover").value;
-      const odiPlate = document.getElementById("odiPlate").value;
+    const brandSelect = document.getElementById("brandSelect");
+    const modelSelect = document.getElementById("modelSelect");
+    const bikeViewer = document.getElementById("bikeViewer");
+    const seatCoverSelect = document.getElementById("seatCoverSelect");
+    const odiSelect = document.getElementById("odiSelect");
 
-      let fileName = `macfox-${model}`;
-      if (seatCover !== "none") fileName += `-${seatCover}`;
-      if (odiPlate !== "none") fileName += `-${odiPlate}`;
+    const models = {
+      macfox: ["x1"],
+      super73: ["rx"],
+      surron: ["lightbee"],
+      talaria: ["sting"]
+    };
 
-      document.getElementById("bikeViewer").src = `models/${fileName}.glb`;
-    }
-
-    function updateModelOptions() {
-      const brand = document.getElementById("brand").value;
-      const modelSelect = document.getElementById("model");
-      modelSelect.innerHTML = "";
-
-      if (brand === "Macfox") {
-        ["x1"].forEach(m => {
+    const updateModelOptions = () => {
+      const brand = brandSelect.value;
+      modelSelect.innerHTML = `<option value="">Select Model</option>`;
+      if (models[brand]) {
+        models[brand].forEach((model) => {
           const opt = document.createElement("option");
-          opt.value = m;
-          opt.text = m.toUpperCase();
+          opt.value = model;
+          opt.textContent = model.toUpperCase();
           modelSelect.appendChild(opt);
         });
       }
+    };
 
-      updateModel();
-    }
+    const updateModelViewer = () => {
+      const brand = brandSelect.value;
+      const model = modelSelect.value;
+      const seat = seatCoverSelect.value;
+      const odi = odiSelect.value;
 
-    window.onload = updateModelOptions;
+      let fileName = `models/${brand}-${model}`;
+
+      if (seat !== "none" && seat !== "") fileName += `-seatcover`;
+      if (odi !== "none" && odi !== "") fileName += `-odi`;
+
+      fileName += `.glb`;
+
+      bikeViewer.src = fileName;
+    };
+
+    brandSelect.addEventListener("change", () => {
+      updateModelOptions();
+      updateModelViewer();
+    });
+
+    modelSelect.addEventListener("change", updateModelViewer);
+    seatCoverSelect.addEventListener("change", updateModelViewer);
+    odiSelect.addEventListener("change", updateModelViewer);
   </script>
-
 </body>
 </html>
