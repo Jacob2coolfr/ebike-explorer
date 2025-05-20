@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>3D E-Bike Customizer</title>
+  <meta charset="UTF-8" />
+  <title>Advanced 3D E-Bike Customizer</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      background: #f0f0f0;
       margin: 0;
       padding: 0;
       text-align: center;
@@ -21,13 +21,13 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      padding: 10px;
       background: #fff;
+      padding: 20px;
     }
-    select, label, input[type="checkbox"] {
+    select, label, input[type="checkbox"], button {
       margin: 10px;
-      padding: 8px;
-      font-size: 16px;
+      padding: 10px;
+      font-size: 15px;
     }
     model-viewer {
       width: 100%;
@@ -39,54 +39,139 @@
     .compatibility {
       margin-top: 20px;
     }
+    .actions {
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>3D E-Bike Customizer</h1>
-  </header>
+<header>
+  <h1>Advanced 3D E-Bike Customizer</h1>
+</header>
 
-  <div class="controls">
-    <label for="model">Model:</label>
-    <select id="model">
-      <option value="macfox-x1">Macfox X1 (Base)</option>
-      <option value="macfox-x1-odi">Macfox X1 + ODI Plate</option>
-      <option value="macfox-x1-seatcover">Macfox X1 + Seat Cover</option>
-      <!-- Add more models as you upload them -->
-    </select>
-  </div>
+<div class="controls">
+  <label for="brand">Brand:</label>
+  <select id="brand">
+    <option value="macfox">Macfox</option>
+    <option value="super73">Super73</option>
+    <option value="surron">Surron</option>
+    <option value="talaria">Talaria</option>
+  </select>
 
-  <model-viewer id="viewer"
-    src="models/macfox-x1.glb"
-    alt="3D E-Bike"
-    camera-controls
-    auto-rotate
-    shadow-intensity="1"
-    ar>
-  </model-viewer>
+  <label for="model">Model:</label>
+  <select id="model"></select>
 
-  <div class="compatibility">
-    <h3>Accessory Compatibility</h3>
-    <ul style="list-style: none; padding: 0;">
-      <li>Seat Cover ✅</li>
-      <li>ODI Plate ✅</li>
-      <li>Grips ✅</li>
-      <li>Kickstand ✅</li>
-      <li>Pegs ✅</li>
-      <li>Headlight ✅</li>
-    </ul>
-  </div>
+  <label for="seat">Seat Cover:</label>
+  <select id="seat">
+    <option value="none">None</option>
+    <option value="guts-black">Guts - Black</option>
+    <option value="guts-red">Guts - Red</option>
+    <option value="guts-blue">Guts - Blue</option>
+    <option value="thrill-black">Thrill Seekers - Black</option>
+    <option value="thrill-red">Thrill Seekers - Red</option>
+    <option value="thrill-green">Thrill Seekers - Green</option>
+  </select>
 
-  <script>
-    const viewer = document.getElementById('viewer');
-    const modelSelect = document.getElementById('model');
+  <label for="odi">ODI Plate:</label>
+  <input type="checkbox" id="odi">
 
-    modelSelect.addEventListener('change', () => {
-      const modelName = modelSelect.value;
-      viewer.src = `models/${modelName}.glb`;
+  <label for="odiColor">ODI Plate Color:</label>
+  <select id="odiColor">
+    <option value="black">Black</option>
+    <option value="red">Red</option>
+    <option value="white">White</option>
+    <option value="blue">Blue</option>
+    <option value="green">Green</option>
+    <option value="orange">Orange</option>
+  </select>
+
+  <label for="grips">Grips:</label>
+  <select id="grips">
+    <option value="black">Black</option>
+    <option value="gray">Gray</option>
+    <option value="red">Red</option>
+    <option value="blue">Blue</option>
+    <option value="green">Green</option>
+    <option value="yellow">Yellow</option>
+  </select>
+
+  <label for="kickstand">Kickstand:</label>
+  <select id="kickstand">
+    <option value="none">None</option>
+    <option value="trailtech">Trail Tech</option>
+    <option value="universal">Universal</option>
+    <option value="center-mount">Center Mount</option>
+    <option value="rear-side">Rear Side</option>
+    <option value="sport-low">Sport Low-Profile</option>
+  </select>
+</div>
+
+<model-viewer id="viewer"
+  src="models/macfox-x1.glb"
+  alt="3D E-Bike"
+  camera-controls
+  auto-rotate
+  shadow-intensity="1"
+  ar>
+</model-viewer>
+
+<div class="compatibility">
+  <h3>Accessory Compatibility</h3>
+  <ul style="list-style: none; padding: 0;">
+    <li>Seat Cover ✅</li>
+    <li>ODI Plate ✅</li>
+    <li>Grips ✅</li>
+    <li>Kickstand ✅</li>
+    <li>Pegs ✅</li>
+    <li>Headlight ✅</li>
+  </ul>
+</div>
+
+<div class="actions">
+  <button onclick="updateModel()">🔄 View Model</button>
+  <button onclick="window.location.href='index.html'">⬅️ Back to Home</button>
+</div>
+
+<script>
+  const viewer = document.getElementById('viewer');
+  const brandSelector = document.getElementById('brand');
+  const modelSelector = document.getElementById('model');
+
+  const models = {
+    macfox: ['x1', 'x2', 'm19', 'm20x', 'c100'],
+    super73: ['z1', 'z-miami', 'zx', 's2', 's-adventure', 'rx', 'r-brooklyn'],
+    surron: ['lightbee-x', 'lightbee-s', 'ultrabee', 'stormbee'],
+    talaria: ['sting-mx3', 'sting-mx4', 'sting-pro', 'x3-mx', 'komodo']
+  };
+
+  function populateModels(brand) {
+    modelSelector.innerHTML = '';
+    models[brand].forEach(model => {
+      const option = document.createElement('option');
+      option.value = model;
+      option.text = model.toUpperCase();
+      modelSelector.add(option);
     });
-  </script>
+  }
+
+  brandSelector.addEventListener('change', () => {
+    populateModels(brandSelector.value);
+  });
+
+  function updateModel() {
+    const brand = brandSelector.value;
+    const model = modelSelector.value;
+    const seat = document.getElementById('seat').value !== 'none' ? '-seat' : '';
+    const odi = document.getElementById('odi').checked ? '-odi' : '';
+
+    const modelFile = `models/${brand}-${model}${seat}${odi}.glb`;
+    viewer.src = modelFile;
+  }
+
+  // Load default brand
+  populateModels('macfox');
+</script>
 
 </body>
 </html>
